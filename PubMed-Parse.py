@@ -27,7 +27,6 @@ Query        = "aditya%20radhakrishnan[author]"
 NumResults   = 1000
 
 QueryURL     = Base + eSearch + Query + "&retmax=" + str(NumResults)
-
 PubMedList   = url.urlopen(QueryURL)
 
 for line in PubMedList:
