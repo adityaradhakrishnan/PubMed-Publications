@@ -27,6 +27,7 @@ Query        = "aditya%20radhakrishnan[author]"
 NumResults   = 1000
 
 QueryURL     = Base + eSearch + Query + "&retmax=" + str(NumResults)
+
 PubMedList   = url.urlopen(QueryURL)
 
 for line in PubMedList:
@@ -96,7 +97,7 @@ for line in Publications:
         if OutL == "No Link Available":
             OutS = OutS + "<br />"
         else:
-            OutS = OutS + " | <a href=\"" + OutL + "\">Link to Article</a><br />"
+            OutS = OutS + " | <a href=\"" + OutL + "\">Link to Article</a></li>\n"
             
         pubHTML.write(OutS)
 
