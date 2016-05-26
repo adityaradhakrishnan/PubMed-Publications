@@ -38,9 +38,10 @@ for line in PubMedList:
             IDList = line[4:12]
         else:
             IDList = IDList + "," + line[4:12]
+
+print IDList
             
 QueryURL     = Base + eSummary + IDList
-
 Publications = url.urlopen(QueryURL)
 
 # Go through the XML metadata file and extract all the data required
@@ -77,29 +78,28 @@ for line in Publications:
         DOILink = "http://dx.doi.org/" + line[33:-8]
     if line[2:18] == "<Item Name=\"pmc\"":
         PMCLink = "http://www.ncbi.nlm.nih.gov/pmc/articles/" + line[33:-8]
+
+    if line[0:9] == "</DocSum>":
         if (DOILink == "") and (PMCLink == ""):
             OutL = "No Link Available"
         elif DOILink == "":
             OutL = PMCLink
         else:
             OutL = DOILink
-    
+
         OutS = "<li> " + Author + ". (" + Year + ") " + Title + " <em>"
         OutS = OutS + Journal + "</em> " + Volume + ": " + Pages + "<br />"
-        
+            
         pubHTML.write(OutS)
-        
-        OutS = "<a href=\"http://ncbi.nlm.nih.gov/pubmed/?term=" + Link + "\">PubMed Link</a>"
-        
+            
+        OutS = "<a href=\"http://ncbi.nlm.nih.gov/pubmed/" + Link + "\">PubMed Link</a>"
+
         if OutL == "No Link Available":
             OutS = OutS + "<br />"
         else:
             OutS = OutS + " | <a href=\"" + OutL + "\">Link to Article</a><br />"
-        
+            
         pubHTML.write(OutS)
-    
-# Technically you don't have to close the file object, because the 
-# OS handles it on termination of Python, but it's just good practice.
 
 pubHTML.write("</ol>")
 pubHTML.write("</body>\n")
